@@ -13,6 +13,10 @@ const PageContainer = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+
+  @media only screen and (max-width: 1225px) {
+    flex-direction: column;
+  }
 `
 
 
