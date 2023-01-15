@@ -30,7 +30,7 @@ const CharacterFinder = ({ auth, name, bracket }) => {
   const { character, minimumRank } = data
 
   return (
-    <Card sx={{ border: '1px solid #1D2D44', borderRadius: '10px', background: '#FAFAFA', margin: '8px', padding: '8px', width: '275px' }}>
+    <Card sx={{ border: '1px solid #0D1321', borderRadius: '10px', background: '#FAFAFA', margin: '8px', padding: '8px', width: '275px' }}>
       {loading ? (
           <LinearProgress />
       ) : character ? (

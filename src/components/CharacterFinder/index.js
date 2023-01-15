@@ -31,7 +31,7 @@ const CharacterFinder = ({ auth }) => {
         aria-controls="panel1a-content"
         id="panel1a-header"
       >
-        <Typography variant='h6'>Tracked Character Rankings</Typography>
+        <Typography variant='h5' color='#1D2D44'>Tracked Character Rankings</Typography>
       </AccordionSummary>
       <AccordionDetails>
         <Flex>
