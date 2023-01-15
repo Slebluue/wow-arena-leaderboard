@@ -100,11 +100,10 @@ const CharacterFinder = ({ auth, classes }) => {
           id="panel2a-header"
         >
           <Typography variant='h5' color='#1D2D44' sx={{ marginRight: '32px' }}>Personal tracked characters</Typography>
-          <CharacterCreate classes={classes} auth={auth} onSave={getTrackedCharacters} />
         </AccordionSummary>
         <AccordionDetails>
           <Flex style={{ alignItems: 'center' }}>
-            {trackedCharacters?.length === 0 && <Typography>Add a character to see solo shuffle rank</Typography>}
+            {trackedCharacters?.length === 0 && <Typography sx={{ marginRight: '16px' }}>Add a character to see solo shuffle rank</Typography>}
             {trackedCharacters.map(c => (
               <CharacterCard
                 key={`${c.name}-${c.bracket}`}
@@ -114,6 +113,7 @@ const CharacterFinder = ({ auth, classes }) => {
                 onDelete={handleDeleteCard}
               />
             ))}
+            <CharacterCreate classes={classes} auth={auth} onSave={getTrackedCharacters} />
           </Flex>
         </AccordionDetails>
       </Accordion>

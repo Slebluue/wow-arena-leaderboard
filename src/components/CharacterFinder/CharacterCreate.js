@@ -74,10 +74,14 @@ const CharacterCreate = ({ classes, auth, onSave }) => {
     const normalizedSpec = spec?.name.replace(' ', '').toLowerCase()
     const bracket = `shuffle-${normalizedClass}-${normalizedSpec}`
 
-    const body = { name: selectedName, bracket: bracket }
-    localStorage.setItem(`character-${selectedName}`, JSON.stringify(body))
+    const normalizedName = capitalizeFirstLetter(selectedName)
+    const body = { name: normalizedName, bracket: bracket }
+    localStorage.setItem(`character-${normalizedName}`, JSON.stringify(body))
     setOpen(false)
     onSave()
+  }
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1)
   }
 
   return (
