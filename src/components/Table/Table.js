@@ -94,14 +94,14 @@ export default function CustomizedTables({ loading, rows }) {
                 )
                 : (
                   rows?.slice(page * perPage, page * perPage + perPage)?.map((row) => (
-                    <StyledTableRow key={row.name}>
+                    <StyledTableRow key={row?.name}>
                       <StyledTableCell component="th" scope="row">
                         {row?.character?.name}
                       </StyledTableCell>
                       <StyledTableCell>{row?.rank}</StyledTableCell>
                       <StyledTableCell align="right">{row?.rating}</StyledTableCell>
-                      <StyledTableCell align="right">{row.season_match_statistics.won}</StyledTableCell>
-                      <StyledTableCell align="right">{row.season_match_statistics.lost}</StyledTableCell>
+                      <StyledTableCell align="right">{row?.season_match_statistics.won}</StyledTableCell>
+                      <StyledTableCell align="right">{row?.season_match_statistics.lost}</StyledTableCell>
                     </StyledTableRow>
                   ))
                 )
@@ -112,7 +112,7 @@ export default function CustomizedTables({ loading, rows }) {
       <TablePagination
         rowsPerPageOptions={[10, 25, 100, 500]}
         component="div"
-        count={rows.length}
+        count={rows?.length}
         rowsPerPage={perPage}
         page={page}
         onPageChange={handleChangePage}

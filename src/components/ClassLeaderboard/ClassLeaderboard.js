@@ -37,6 +37,7 @@ const ClassLeaderboards = ({ classes, auth }) => {
         { cache: 'force-cache' }
       ).then(res => res.json())
 
+      setTableData([])
       setSelectedSpec('')
       setSpecializations(res?.data?.specializations)
     }
@@ -49,7 +50,9 @@ const ClassLeaderboards = ({ classes, auth }) => {
       setLoading(true)
       const spec = specializations.find(s => s.id === selectedSpec)
       const wowClass = classes.find(c => c.id === selectedClass)
-      const bracket = `shuffle-${wowClass?.name.toLowerCase()}-${spec?.name.toLowerCase()}`
+      const normalizedClass = wowClass?.name.replace(' ', '').toLowerCase()
+      const normalizedSpec = spec?.name.replace(' ', '').toLowerCase()
+      const bracket = `shuffle-${normalizedClass}-${normalizedSpec}`
 
       const res = await fetch('/api/dynamic/leaderboard?' + new URLSearchParams({
         access_token: auth?.token,
@@ -58,10 +61,10 @@ const ClassLeaderboards = ({ classes, auth }) => {
       }, { next: { revalidate: 60 } })).then(res => res.json())
 
       setLoading(false)
-      setTableData(res?.data?.entries)
+      setTableData(res?.data?.entries || [])
     }
 
-    if (selectedClass && specializations && classes && selectedSpec && auth) {
+    if (selectedClass && selectedSpec && specializations && classes && auth) {
       getSpecLeaderboard()
     }
 
