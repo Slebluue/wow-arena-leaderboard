@@ -103,7 +103,7 @@ const CharacterFinder = ({ auth, classes }) => {
         </AccordionSummary>
         <AccordionDetails>
           <Flex style={{ alignItems: 'center' }}>
-            {trackedCharacters?.length === 0 && <Typography sx={{ marginRight: '16px' }}>Add a character to see solo shuffle rank</Typography>}
+            {trackedCharacters?.length === 0 && <Typography sx={{ marginRight: '16px', marginBottom: '16px' }}>Add a character to see solo shuffle rank</Typography>}
             {trackedCharacters.map(c => (
               <CharacterCard
                 key={`${c.name}-${c.bracket}`}
