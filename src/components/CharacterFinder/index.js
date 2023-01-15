@@ -19,7 +19,7 @@ const Flex = styled.div`
 `
 
 const CharacterFinder = ({ auth, classes }) => {
-  const [expanded, setExpanded] = useState('owner')
+  const [expanded, setExpanded] = useState('personal')
   const [trackedCharacters, setTrackedCharacters] = useState([])
 
   useEffect(() => {
@@ -46,6 +46,34 @@ const CharacterFinder = ({ auth, classes }) => {
 
   return (
     <>
+      <Accordion
+        sx={{ background: '#FAFAFA' }}
+        expanded={expanded === 'personal'}
+        onChange={() => expanded === 'personal' ?  setExpanded(null) : setExpanded('personal')}
+      >
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel2a-content"
+          id="panel2a-header"
+        >
+          <Typography variant='h5' color='#1D2D44' sx={{ marginRight: '32px' }}>Personal tracked characters</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Flex style={{ alignItems: 'center' }}>
+            {trackedCharacters.map(c => (
+              <CharacterCard
+                key={`${c.name}-${c.bracket}`}
+                auth={auth}
+                name={c.name}
+                bracket={c.bracket}
+                onDelete={handleDeleteCard}
+              />
+            ))}
+            <CharacterCreate classes={classes} auth={auth} onSave={getTrackedCharacters} />
+            {trackedCharacters?.length === 0 && <Typography sx={{ marginLeft: '16px' }}>Add a character to see solo shuffle rank</Typography>}
+          </Flex>
+        </AccordionDetails>
+      </Accordion>
       <Accordion
         sx={{ background: '#FAFAFA' }}
         expanded={expanded === 'owner'}
@@ -86,34 +114,6 @@ const CharacterFinder = ({ auth, classes }) => {
               name="Blessdatbutt"
               bracket="shuffle-paladin-holy"
             />
-          </Flex>
-        </AccordionDetails>
-      </Accordion>
-      <Accordion
-        sx={{ background: '#FAFAFA' }}
-        expanded={expanded === 'personal'}
-        onChange={() => expanded === 'personal' ?  setExpanded(null) : setExpanded('personal')}
-      >
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel2a-content"
-          id="panel2a-header"
-        >
-          <Typography variant='h5' color='#1D2D44' sx={{ marginRight: '32px' }}>Personal tracked characters</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Flex style={{ alignItems: 'center' }}>
-            {trackedCharacters?.length === 0 && <Typography sx={{ marginRight: '16px', marginBottom: '16px' }}>Add a character to see solo shuffle rank</Typography>}
-            {trackedCharacters.map(c => (
-              <CharacterCard
-                key={`${c.name}-${c.bracket}`}
-                auth={auth}
-                name={c.name}
-                bracket={c.bracket}
-                onDelete={handleDeleteCard}
-              />
-            ))}
-            <CharacterCreate classes={classes} auth={auth} onSave={getTrackedCharacters} />
           </Flex>
         </AccordionDetails>
       </Accordion>
