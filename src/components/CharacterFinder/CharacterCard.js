@@ -30,7 +30,7 @@ const CharacterFinder = ({ auth, name, bracket }) => {
   const { character, minimumRank } = data
 
   return (
-    <Card sx={{ border: '1px solid #1D2D44', borderRadius: '10px', background: '#FAFAFA', margin: '8px', padding: '8px', width: '275px', height: '75px' }}>
+    <Card sx={{ border: '1px solid #1D2D44', borderRadius: '10px', background: '#FAFAFA', margin: '8px', padding: '8px', width: '275px' }}>
       {loading ? (
           <LinearProgress />
       ) : character ? (
@@ -41,7 +41,7 @@ const CharacterFinder = ({ auth, name, bracket }) => {
         </>
       ) : (
         <>
-          <Typography>Character not found for bracket: {bracket}</Typography>
+          <Typography>Character not found for bracket: {SHUFFLE_KEY_MAP[bracket]}</Typography>
           <Typography>Minimum Ranking Needed: {minimumRank}</Typography>
         </>
       )}

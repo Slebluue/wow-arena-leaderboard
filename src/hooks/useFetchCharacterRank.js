@@ -13,7 +13,7 @@ const useFetchCharacterRank = (auth, name, bracket) => {
           access_token: auth?.token,
           season: 34,
           bracket: bracket
-        })).then(res => res.json())
+        }, { next: { revalidate: 60 } })).then(res => res.json())
   
         const entries = res?.data?.entries
         const character = entries?.find((d) => d?.character?.name === name)

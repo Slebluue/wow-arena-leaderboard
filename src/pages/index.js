@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 /** API */
 import { selectToken } from './api/auth'
-import { selectClasses } from '@/pages/api/static/classes'
+import { fetchClassIndex } from '@/pages/api/static/classes'
 
 /** Components */
 import CharacterFinder from '@/components/CharacterFinder'
@@ -26,19 +26,19 @@ const Home = ({ auth, classes }) => {
   return (
     <PageContainer>
       <CharacterFinder auth={auth} />
-      <ClassLeaderboards classes={classes} />
+      <ClassLeaderboards classes={classes} auth={auth} />
     </PageContainer>
   )
 }
 
-export const getServerSideProps = async (ctx) => {
+export const getStaticProps = async (ctx) => {
   const token = await selectToken(ctx)
-  const classes = await selectClasses(ctx)
+  const index = await fetchClassIndex({ access_token: token })
 
   return {
     props: {
       auth: { token },
-      classes,
+      classes: index?.classes,
     },
   }
 }
