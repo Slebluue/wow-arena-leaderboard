@@ -22,6 +22,10 @@ const LeaderBoardcontainer = styled.div`
 const SpacedDivider = styled(Divider)`
   margin-bottom: 16px;
 `
+const TitleDivider = styled(Divider)`
+  margin-bottom: 32px;
+  background: #FFFFFF;
+`
 
 const ClassLeaderboards = ({ classes, auth }) => {
   const [selectedClass, setSelectedClass] = useState('')
@@ -72,7 +76,8 @@ const ClassLeaderboards = ({ classes, auth }) => {
 
   return (
     <>
-      <Typography variant='h2' sx={{ color: '#FFFFFF', marginTop: '32px', marginBottom: '32px' }}>Solo Shuffle Class Leaderboards</Typography>
+      <Typography variant='h2' sx={{ color: '#FFFFFF', marginTop: '32px', marginBottom: '8px' }}>Solo Shuffle Class Leaderboards</Typography>
+      <TitleDivider />
         <LeaderBoardcontainer>
           <Flex>
             <Dropdown

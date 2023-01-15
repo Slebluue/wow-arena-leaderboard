@@ -15,7 +15,7 @@ const PageContainer = styled.div`
   flex-direction: column;
   min-height: 100vh;
 
-  background: rgba(116,140,171);
+  background: #3E5C76;
 `
 
 
@@ -26,7 +26,7 @@ const PageContainer = styled.div`
 const Home = ({ auth, classes }) => {
   return (
     <PageContainer>
-      <CharacterFinder auth={auth} />
+      <CharacterFinder classes={classes} auth={auth} />
       <ClassLeaderboards classes={classes} auth={auth} />
     </PageContainer>
   )
