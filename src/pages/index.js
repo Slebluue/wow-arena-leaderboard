@@ -13,6 +13,7 @@ const PageContainer = styled.div`
   padding: 32px;
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
 
   background: rgba(116,140,171);
 `
