@@ -9,7 +9,7 @@ const useFetchCharacterRank = (auth, name, bracket) => {
     async function fetchData() {
       try {
         setLoading(true)
-        const res = await fetch('/api/leaderboard?' + new URLSearchParams({
+        const res = await fetch('/api/dynamic/leaderboard?' + new URLSearchParams({
           access_token: auth?.token,
           season: 34,
           bracket: bracket

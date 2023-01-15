@@ -1,9 +1,9 @@
 import nookies from 'nookies'
 
-const SECRET = process.env.CLIENT_SECRET
-const CLIENT_ID = process.env.CLIENT_ID
-
 export async function fetchToken() {
+  const SECRET = process.env.CLIENT_SECRET
+  const CLIENT_ID = process.env.CLIENT_ID
+
   const res = await fetch('https://oauth.battle.net/token', {
     method: 'POST',
     body: 'grant_type=client_credentials&client_id=' + CLIENT_ID + '&client_secret=' + SECRET,
@@ -16,19 +16,13 @@ export async function fetchToken() {
 }
 
 export async function selectToken(ctx) {
-  const cookies = nookies.get(ctx)
-  let authToken = cookies?.token
+  const res = await fetchToken()
+  nookies.set(ctx, 'token', res?.access_token, {
+    maxAge: res?.expires_in,
+    path: '/',
+  })
 
-  if (!authToken) {
-    const res = await fetchToken()
-    nookies.set(ctx, 'token', res?.access_token, {
-      maxAge: res?.expires_in,
-      path: '/',
-    })
-    authToken = res?.access_token
-  }
-
-  return authToken
+  return res?.access_token
 }
 
 export default async function handler(req, res) {

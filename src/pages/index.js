@@ -3,60 +3,43 @@ import styled from 'styled-components'
 
 /** API */
 import { selectToken } from './api/auth'
+import { selectClasses } from '@/pages/api/static/classes'
 
 /** Components */
 import CharacterFinder from '@/components/CharacterFinder'
-
+import ClassLeaderboards from '@/components/ClassLeaderboard'
 
 const PageContainer = styled.div`
   padding: 32px;
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-direction: column;
 
-  @media only screen and (max-width: 1225px) {
-    flex-direction: column;
-  }
+  background: rgba(116,140,171);
 `
 
 
-const Home = ({ auth }) => {
+// COLOR PALLETTE
+// https://coolors.co/0d1321-1d2d44-3e5c76-748cab-f0ebd8
+// rgba(116,140,171) - blue
+
+const Home = ({ auth, classes }) => {
   return (
     <PageContainer>
-      <CharacterFinder
-        auth={auth}
-        name='Bluuemy'
-        bracket='shuffle-monk-mistweaver'
-      />
-      <CharacterFinder
-        auth={auth}
-        name='Bluuee'
-        bracket='shuffle-evoker-preservation'
-      />
-      <CharacterFinder
-        auth={auth}
-        name='Dankboipucci'
-        bracket='shuffle-warrior-arms'
-      />
-      <CharacterFinder
-        auth={auth}
-        name='Blessdatbutt'
-        bracket='shuffle-paladin-retribution'
-      />
-      <CharacterFinder
-        auth={auth}
-        name='Blessdatbutt'
-        bracket='shuffle-paladin-holy'
-      />
+      <CharacterFinder auth={auth} />
+      <ClassLeaderboards classes={classes} />
     </PageContainer>
   )
 }
 
 export const getServerSideProps = async (ctx) => {
   const token = await selectToken(ctx)
+  const classes = await selectClasses(ctx)
 
   return {
-    props: { auth: { token } }
+    props: {
+      auth: { token },
+      classes,
+    },
   }
 }
 
