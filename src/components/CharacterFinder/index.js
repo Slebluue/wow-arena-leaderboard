@@ -99,7 +99,7 @@ const CharacterFinder = ({ auth, classes }) => {
           aria-controls="panel2a-content"
           id="panel2a-header"
         >
-          <Typography variant='h5' color='#1D2D44' sx={{ marginRight: '32px' }}>Personal Character Rankings</Typography>
+          <Typography variant='h5' color='#1D2D44' sx={{ marginRight: '32px' }}>Personal tracked characters</Typography>
           <CharacterCreate classes={classes} auth={auth} onSave={getTrackedCharacters} />
         </AccordionSummary>
         <AccordionDetails>
