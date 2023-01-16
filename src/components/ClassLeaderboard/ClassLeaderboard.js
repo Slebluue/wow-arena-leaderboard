@@ -6,6 +6,9 @@ import styled from 'styled-components'
 import Dropdown from '@/components/Dropdown'
 import Table from '@/components/Table'
 
+/** Hooks */
+import useFetchTrackedCharacters from '@/hooks/useFetchTrackedCharacters'
+
 /** UI */
 import Typography from '@mui/material/Typography'
 import MenuItem from '@mui/material/MenuItem'
@@ -26,6 +29,10 @@ const TitleDivider = styled(Divider)`
   margin-bottom: 32px;
   background: #FFFFFF;
 `
+const TableDivider = styled(Divider)`
+  margin-top: 32px;
+  margin-bottom: 16px;
+`
 
 const ClassLeaderboards = ({ classes, auth }) => {
   const [selectedClass, setSelectedClass] = useState('')
@@ -33,6 +40,25 @@ const ClassLeaderboards = ({ classes, auth }) => {
   const [specializations, setSpecializations] = useState([])
   const [loading, setLoading] = useState(false)
   const [tableData, setTableData] = useState([])
+  const [trackedData, setTrackedData] = useState([])
+
+  const { trackedCharacters } = useFetchTrackedCharacters()
+
+  const getTrackedData = (data, characters, bracket) => {
+    const tracked = characters.filter(t => t.bracket === bracket)
+    const trackedData = tracked.map(t => data.find(e => e.character.name === t.name)).sort((a, b) => a.rank - b.rank)
+
+    return trackedData
+  }
+
+  const getBracket = () => {
+    const spec = specializations.find(s => s.id === selectedSpec)
+    const wowClass = classes.find(c => c.id === selectedClass)
+    const normalizedClass = wowClass?.name.replace(' ', '').toLowerCase()
+    const normalizedSpec = spec?.name.replace(' ', '').toLowerCase()
+
+    return `shuffle-${normalizedClass}-${normalizedSpec}`
+  }
 
   useEffect(() => {
     async function getSpecs() {
@@ -52,11 +78,7 @@ const ClassLeaderboards = ({ classes, auth }) => {
   useEffect(() => {
     async function getSpecLeaderboard() {
       setLoading(true)
-      const spec = specializations.find(s => s.id === selectedSpec)
-      const wowClass = classes.find(c => c.id === selectedClass)
-      const normalizedClass = wowClass?.name.replace(' ', '').toLowerCase()
-      const normalizedSpec = spec?.name.replace(' ', '').toLowerCase()
-      const bracket = `shuffle-${normalizedClass}-${normalizedSpec}`
+      const bracket = getBracket()
 
       const res = await fetch('/api/dynamic/leaderboard?' + new URLSearchParams({
         access_token: auth?.token,
@@ -64,7 +86,10 @@ const ClassLeaderboards = ({ classes, auth }) => {
         bracket: bracket
       }, { next: { revalidate: 60 } })).then(res => res.json())
 
+      const trackedData = getTrackedData(res?.data?.entries, trackedCharacters, bracket)
+
       setLoading(false)
+      setTrackedData(trackedData)
       setTableData(res?.data?.entries || [])
     }
 
@@ -73,6 +98,14 @@ const ClassLeaderboards = ({ classes, auth }) => {
     }
 
   }, [selectedClass, specializations, classes, selectedSpec, auth])
+
+
+  useEffect(() => {
+    if (trackedData.length > 0) {
+      const bracket = getBracket()
+      getTrackedData(trackedData, trackedCharacters, bracket)
+    }
+  }, [trackedCharacters, trackedData])
 
   return (
     <>
@@ -102,6 +135,14 @@ const ClassLeaderboards = ({ classes, auth }) => {
             )}
           </Flex>
         <SpacedDivider />
+        {trackedData?.length > 0 && (
+          <>
+            <Typography variant='h6' sx={{ marginBottom: '8px' }}>Tracked Leaderboard</Typography>
+            <Table loading={loading} rows={trackedData} tracked />
+            <TableDivider />
+          </>
+        )}
+        {trackedData?.length > 0 && (<Typography variant='h6'>Class Leaderboard</Typography>)}
         <Table loading={loading} rows={tableData} />
       </LeaderBoardcontainer>
     </>

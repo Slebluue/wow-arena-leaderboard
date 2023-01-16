@@ -1,5 +1,5 @@
 /** Dependencies */
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 
 /** Components */
@@ -12,6 +12,7 @@ import AccordionSummary from '@mui/material/AccordionSummary'
 import AccordionDetails from '@mui/material/AccordionDetails'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import Typography from '@mui/material/Typography'
+import useFetchTrackedCharacters from '@/hooks/useFetchTrackedCharacters'
 
 const Flex = styled.div`
   display: flex;
@@ -19,29 +20,12 @@ const Flex = styled.div`
 `
 
 const CharacterFinder = ({ auth, classes }) => {
+  const { trackedCharacters, refresh } = useFetchTrackedCharacters()
   const [expanded, setExpanded] = useState('personal')
-  const [trackedCharacters, setTrackedCharacters] = useState([])
-
-  useEffect(() => {
-    getTrackedCharacters()
-  }, [])
-
-  const getTrackedCharacters = () => {
-    const items = { ...localStorage }
-
-    const chars = Object.keys(items).
-      filter((key) => key.includes('character-')).
-      reduce((cur, key) => {
-        const item = JSON.parse(items[key])
-        return [...cur, item]
-      }, [])
-
-    setTrackedCharacters(chars)
-  }
 
   const handleDeleteCard = (name) => {
     localStorage.removeItem(`character-${name}`)
-    getTrackedCharacters()
+    refresh()
   }
 
   return (
@@ -69,7 +53,7 @@ const CharacterFinder = ({ auth, classes }) => {
                 onDelete={handleDeleteCard}
               />
             ))}
-            <CharacterCreate classes={classes} auth={auth} onSave={getTrackedCharacters} />
+            <CharacterCreate classes={classes} auth={auth} onSave={refresh} />
             {trackedCharacters?.length === 0 && <Typography sx={{ marginLeft: '16px' }}>Add a character to see solo shuffle rank</Typography>}
           </Flex>
         </AccordionDetails>

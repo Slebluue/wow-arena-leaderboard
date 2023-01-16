@@ -80,6 +80,7 @@ const CharacterFinder = ({ auth, name, bracket, onDelete }) => {
         <>
           <Typography color={'#FFFFFF'}><strong>{character?.character?.name}</strong></Typography>
           <Typography color={'#FFFFFF'}><strong>#{character?.rank}</strong> - {character?.rating}</Typography>
+          <Typography color={'#FFFFFF'}>W{character?.season_match_statistics?.won} - L{character?.season_match_statistics?.lost}</Typography>
           <Typography color={'#FFFFFF'}>{SHUFFLE_KEY_MAP[bracket]}</Typography>
         </>
       ) : (

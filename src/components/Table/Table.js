@@ -33,7 +33,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }))
 
-export default function CustomizedTables({ loading, rows }) {
+export default function CustomizedTables({ loading, rows, tracked }) {
   const [page, setPage] = useState(0)
   const [perPage, setPerPage] = useState(100)
 
@@ -48,15 +48,17 @@ export default function CustomizedTables({ loading, rows }) {
   
   return (
     <>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 100, 500]}
-        component="div"
-        count={rows?.length}
-        rowsPerPage={perPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
+      {!tracked && (
+        <TablePagination
+          rowsPerPageOptions={[10, 25, 100, 500]}
+          component="div"
+          count={rows?.length}
+          rowsPerPage={perPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      )}
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
@@ -109,15 +111,17 @@ export default function CustomizedTables({ loading, rows }) {
           </TableBody>
         </Table>
       </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 100, 500]}
-        component="div"
-        count={rows?.length}
-        rowsPerPage={perPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
+      {!tracked && (
+        <TablePagination
+          rowsPerPageOptions={[10, 25, 100, 500]}
+          component="div"
+          count={rows?.length}
+          rowsPerPage={perPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      )}
     </>
   )
 }
