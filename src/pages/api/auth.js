@@ -9,7 +9,8 @@ export async function fetchToken() {
     body: 'grant_type=client_credentials&client_id=' + CLIENT_ID + '&client_secret=' + SECRET,
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
-    }
+    },
+    cache: 'no-store',
   }).then(res => res.json())
   
   return res
